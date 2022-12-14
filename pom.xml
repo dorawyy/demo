@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>7ep</groupId>
+    <artifactId>demo</artifactId>
+    <version>0.1.0</version>
+    <packaging>jar</packaging>
+
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <!--<maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>-->
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>gradle-plugins</id>
+            <url>https://plugins.gradle.org/m2/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- necessary for the servlet functionality.  See any class ending in "Servlet" -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--junit, for running unit tests-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+            <version>4.13</version>
+        </dependency>
+        <!--mockito, for mocking objects in our unit tests-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <version>3.3.3</version>
+        </dependency>
+        <!--nbvcxz is a tool to determine how robust a password is. See https://github.com/GoSimpleLLC/nbvcxz-->
+        <dependency>
+            <groupId>me.gosimple</groupId>
+            <artifactId>nbvcxz</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        <!--the glorious equalsverifier.  This is a tool that tests the contract-->
+        <!-- for equals and hashcode are met.  It's very strict.  Because it's very-->
+        <!--strict, it forces us to create very safe, very solid code.-->
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <scope>test</scope>
+            <version>3.1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <scope>test</scope>
+            <version>5.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <scope>test</scope>
+            <version>5.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.10</version>
+        </dependency>
+
+        <!--a logging framework, so it becomes easily possible to see what is happening-->
+        <!--in our code in realtime.-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.13.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.13.2</version>
+        </dependency>
+
+        <!--The following gives us the ability to use slf4j api calls.-->
+        <!--https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.13.2</version>
+        </dependency>
+
+        <!-- we'll use this as our database -->
+        <!--https://mvnrepository.com/artifact/com.h2database/h2-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
+        <!--so we can programmatically run flyway at startup-->
+        <!--https://mvnrepository.com/artifact/org.flywaydb/flyway-core-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>6.4.1</version>
+        </dependency>
+
+        <!--provides monitoring of the application during runtime.-->
+        <!--go to http://url/demo/monitoring-->
+        <!--https://mvnrepository.com/artifact/net.bull.javamelody/javamelody-core-->
+        <dependency>
+            <groupId>net.bull.javamelody</groupId>
+            <artifactId>javamelody-core</artifactId>
+            <version>1.85.0</version>
+        </dependency>
+
+        <!--gretty is a gradle plugin to make it easy to run a server and hotswap code at runtime.-->
+        <!-- https://mvnrepository.com/artifact/org.gretty/gretty -->
+        <dependency>
+            <groupId>org.gretty</groupId>
+            <artifactId>gretty</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+        <!--provides access to a database versioning tool.-->
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-maven-plugin -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>6.0.8</version>
+        </dependency>
+
+        <!--pitest provides mutation testing coverage - this shows-->
+        <!--which code-under-test is actually "tested", rather than-->
+        <!--simply being run during the test.  It does this by-->
+        <!--changing the code and seeing if the test fails as a result.-->
+        <!-- https://mvnrepository.com/artifact/info.solidsoft.pitest/info.solidsoft.pitest.gradle.plugin -->
+        <dependency>
+            <groupId>info.solidsoft.pitest</groupId>
+            <artifactId>info.solidsoft.pitest.gradle.plugin</artifactId>
+            <version>1.5.1</version>
+            <type>pom</type>
+        </dependency>
+
+
+        <!--Dependency Check analyzes the dependencies for 
+        potential security issues. 
+        see https://plugins.gradle.org/plugin/org.owasp.dependencycheck-->
+        <!-- https://mvnrepository.com/artifact/org.owasp.dependencycheck/org.owasp.dependencycheck.gradle.plugin -->
+        <dependency>
+            <groupId>org.owasp.dependencycheck</groupId>
+            <artifactId>org.owasp.dependencycheck.gradle.plugin</artifactId>
+            <version>6.1.6</version>
+            <type>pom</type>
+        </dependency>
+
+
+        <!--this gives us the abilities of SSH - specifically, the ability to run commands on a remote server, and to copy files to/from servers-->
+        <!-- https://mvnrepository.com/artifact/org.hidetake.ssh/org.hidetake.ssh.gradle.plugin -->
+        <dependency>
+            <groupId>org.hidetake.ssh</groupId>
+            <artifactId>org.hidetake.ssh.gradle.plugin</artifactId>
+            <version>2.10.1</version>
+            <type>pom</type>
+        </dependency>
+
+        <!--Provides us the ability to disallow null.-->
+        <!--see https://en.wikipedia.org/wiki/Tony_Hoare#Apologies_and_retractions-->
+        <!--see https://github.com/kelloggm/checkerframework-gradle-plugin-->
+        <!-- https://mvnrepository.com/artifact/org.checkerframework/checker-qual -->
+        <dependency>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker-qual</artifactId>
+            <!--<version>0.5.0</version>-->
+            <version>3.28.0</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <finalName>demo</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <!-- generate a test jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Use this to copy all dependencies to target/lib/ folder-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <!-- disable maven test phase -->
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>
